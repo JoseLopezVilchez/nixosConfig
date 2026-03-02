@@ -34,9 +34,7 @@ in
             Environment = "OLLAMA_MODELS=${baseDir}/ollama";
             Restart = "on-failure";
           };
-          Install = {
-            WantedBy = [ "ai-services.target" ];
-          };
+          wantedBy = [ "ai-services.target" ];
         };
 
         qdrant = {
@@ -48,9 +46,7 @@ in
             ExecStart = "${pkgs.qdrant}/bin/qdrant --storage-path ${baseDir}/qdrant";
             Restart = "on-failure";
           };
-          Install = {
-            WantedBy = [ "ai-services.target" ];
-          };
+          wantedBy = [ "ai-services.target" ];
         };
 
         qdrant-web = {
@@ -63,9 +59,7 @@ in
             ExecStart = "${pkgs.qdrant-web-ui}/bin/qdrant-web-ui";
             Restart = "on-failure";
           };
-          Install = {
-            WantedBy = [ "ai-services.target" ];
-          };
+          wantedBy = [ "ai-services.target" ];
         };
 
         n8n = {
@@ -79,9 +73,7 @@ in
             Environment = "N8N_USER_FOLDER=${baseDir}/n8n";
             Restart = "on-failure";
           };
-          Install = {
-            WantedBy = [ "ai-services.target" ];
-          };
+          wantedBy = [ "ai-services.target" ];
         };
       };
     };
