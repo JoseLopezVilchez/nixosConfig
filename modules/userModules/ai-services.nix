@@ -24,7 +24,6 @@ in
   users.users.${username}.packages = with pkgs; [
     ollama-vulkan
     qdrant
-    qdrant-web-ui
     n8n
   ];
 
@@ -54,17 +53,6 @@ in
             ExecStart = "${pkgs.qdrant}/bin/qdrant --config-path ${qdrantConfig}";
             Restart = "on-failure";
             WorkingDirectory = baseDir;
-          };
-          wantedBy = [ "ai-services.target" ];
-        };
-
-        qdrant-web = {
-          description = "Qdrant Web UI";
-          partOf = [ "ai-services.target" ];
-          after = [ "qdrant.service" ];
-          serviceConfig = {
-            ExecStart = "${pkgs.qdrant-web-ui}/bin/qdrant-web-ui";
-            Restart = "on-failure";
           };
           wantedBy = [ "ai-services.target" ];
         };
