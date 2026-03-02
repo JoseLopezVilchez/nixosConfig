@@ -19,30 +19,24 @@ in
   systemd = {
     user = {
       targets.ai-services = {
-        Unit = {
-          Description = "AI Services Group";
-        };
+        description = "AI Services Group";
       };
       services = {
         ollama = {
-          Unit = {
-            Description = "Ollama Service";
-            PartOf = [ "ai-services.target" ];
-          };
-          Service = {
-            ExecStart = "${pkgs.ollama}/bin/ollama serve";
-            Environment = "OLLAMA_MODELS=${baseDir}/ollama";
+          description = "Ollama Service";
+          partOf = [ "ai-services.target" ];
+          environment = "OLLAMA_MODELS=${baseDir}/ollama";
+          serviceConfig = {
+            ExecStart = "${pkgs.ollama-vulkan}/bin/ollama serve";
             Restart = "on-failure";
           };
           wantedBy = [ "ai-services.target" ];
         };
 
         qdrant = {
-          Unit = {
-            Description = "Qdrant Vector DB";
-            PartOf = [ "ai-services.target" ];
-          };
-          Service = {
+          description = "Qdrant Vector DB";
+          partOf = [ "ai-services.target" ];
+          serviceConfig = {
             ExecStart = "${pkgs.qdrant}/bin/qdrant --storage-path ${baseDir}/qdrant";
             Restart = "on-failure";
           };
@@ -50,12 +44,10 @@ in
         };
 
         qdrant-web = {
-          Unit = {
-            Description = "Qdrant Web UI";
-            PartOf = [ "ai-services.target" ];
-            After = [ "qdrant.service" ];
-          };
-          Service = {
+          description = "Qdrant Web UI";
+          partOf = [ "ai-services.target" ];
+          after = [ "qdrant.service" ];
+          serviceConfig = {
             ExecStart = "${pkgs.qdrant-web-ui}/bin/qdrant-web-ui";
             Restart = "on-failure";
           };
@@ -63,14 +55,12 @@ in
         };
 
         n8n = {
-          Unit = {
-            Description = "n8n via bunx";
-            PartOf = [ "ai-services.target" ];
-          };
-          Service = {
+          description = "n8n via bunx";
+          partOf = [ "ai-services.target" ];
+          environment = "N8N_USER_FOLDER=${baseDir}/n8n";
+          serviceConfig = {
             WorkingDirectory = "${baseDir}/n8n";
             ExecStart = "${pkgs.bun}/bin/bun n8n";
-            Environment = "N8N_USER_FOLDER=${baseDir}/n8n";
             Restart = "on-failure";
           };
           wantedBy = [ "ai-services.target" ];
