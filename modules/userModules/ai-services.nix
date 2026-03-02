@@ -6,11 +6,23 @@ let
   username = "redfinger";
   homeDir = "/home/${username}";
   baseDir = "${homeDir}/aiservices";
+
+  qdrantConfig = pkgs.writeText "qdrant.yaml" ''
+    storage:
+      storage_path: ${baseDir}/qdrant/storage
+      snapshots_path: ${baseDir}/qdrant/snapshots
+      snapshots_config:
+        snapshots_storage: local
+      temp_path: ${baseDir}/qdrant/snapshots_temp
+
+    service:
+      http_port: 6333
+      grpc_port: 6334
+  '';
 in
 {
   users.users.${username}.packages = with pkgs; [
     ollama-vulkan
-    bun
     qdrant
     qdrant-web-ui
     n8n
@@ -39,8 +51,9 @@ in
           description = "Qdrant Vector DB";
           partOf = [ "ai-services.target" ];
           serviceConfig = {
-            ExecStart = "${pkgs.qdrant}/bin/qdrant --storage-path ${baseDir}/qdrant";
+            ExecStart = "${pkgs.qdrant}/bin/qdrant --config-path ${qdrantConfig}";
             Restart = "on-failure";
+            WorkingDirectory = baseDir;
           };
           wantedBy = [ "ai-services.target" ];
         };
@@ -64,7 +77,7 @@ in
           };
           serviceConfig = {
             WorkingDirectory = "${baseDir}/n8n";
-            ExecStart = "${pkgs.bun}/bin/bun n8n";
+            ExecStart = "${pkgs.n8n}/bin/n8n";
             Restart = "on-failure";
           };
           wantedBy = [ "ai-services.target" ];
