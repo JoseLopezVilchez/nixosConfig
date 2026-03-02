@@ -25,7 +25,9 @@ in
         ollama = {
           description = "Ollama Service";
           partOf = [ "ai-services.target" ];
-          environment = "OLLAMA_MODELS=${baseDir}/ollama";
+          environment = {
+            OLLAMA_MODELS = "${baseDir}/ollama";
+          };
           serviceConfig = {
             ExecStart = "${pkgs.ollama-vulkan}/bin/ollama serve";
             Restart = "on-failure";
@@ -57,7 +59,9 @@ in
         n8n = {
           description = "n8n via bunx";
           partOf = [ "ai-services.target" ];
-          environment = "N8N_USER_FOLDER=${baseDir}/n8n";
+          environment = {
+            N8N_USER_FOLDER = "${baseDir}/n8n";
+          };
           serviceConfig = {
             WorkingDirectory = "${baseDir}/n8n";
             ExecStart = "${pkgs.bun}/bin/bun n8n";
