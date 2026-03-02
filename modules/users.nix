@@ -1,5 +1,9 @@
 { pkgs, ... }:
 {
+  imports = [
+    ./userModules/ai-services.nix
+  ];
+
   users.users.redfinger = {
     isNormalUser = true;
     description = "Redfinger";
