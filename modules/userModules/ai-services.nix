@@ -24,6 +24,8 @@ in
   users.users.${username}.packages = with pkgs; [
     ollama-vulkan
     qdrant
+    nodejs_24
+    python315
     n8n
   ];
 
