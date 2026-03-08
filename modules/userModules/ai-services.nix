@@ -62,8 +62,16 @@ in
         n8n = {
           description = "n8n via bunx";
           partOf = [ "ai-services.target" ];
+
+          path = with pkgs; [
+            python315
+            nodejs_24
+          ];
+
           environment = {
             N8N_USER_FOLDER = "${baseDir}/n8n";
+            N8N_PYTHON_BINARY = "${pkgs.python315}/bin/python3";
+            N8N_BLOCK_SVC_REGISTRATION_EMAIL = "true";
           };
           serviceConfig = {
             WorkingDirectory = "${baseDir}/n8n";
