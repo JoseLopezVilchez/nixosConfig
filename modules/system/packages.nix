@@ -4,6 +4,7 @@
   nixpkgs.config.allowUnfree = true;
   programs.firefox.enable = true;
   environment.systemPackages = with pkgs; [
+    home-manager
     virt-manager
     podman
     tpm2-tools
