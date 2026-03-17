@@ -30,53 +30,61 @@ in
 
   systemd.user = {
     targets.ai-services = {
-      description = "AI Services Group";
+      Unit.Description = "AI Services Group";
+      Install.WantedBy = [ "default.target" ];
     };
     services = {
       ollama = {
-        description = "Ollama Service";
-        partOf = [ "ai-services.target" ];
-        environment = {
-          OLLAMA_MODELS = "${baseDir}/ollama";
+        Unit = {
+          Description = "Ollama Service";
+          After = [ "network.target" ];
+          PartOf = [ "ai-services.target" ];
         };
-        serviceConfig = {
+        Service = {
           ExecStart = "${pkgs.ollama-vulkan}/bin/ollama serve";
           Restart = "on-failure";
+          Environment = "OLLAMA_MODELS=${baseDir}/ollama";
         };
-        wantedBy = [ "ai-services.target" ];
+        Install.WantedBy = [ "ai-services.target" ];
       };
 
       qdrant = {
-        description = "Qdrant Vector DB";
-        partOf = [ "ai-services.target" ];
-        serviceConfig = {
+        Unit = {
+          Description = "Qdrant Vector DB";
+          PartOf = [ "ai-services.target" ];
+        };
+
+        Service = {
           ExecStart = "${pkgs.qdrant}/bin/qdrant --config-path ${qdrantConfig}";
           Restart = "on-failure";
           WorkingDirectory = baseDir;
         };
-        wantedBy = [ "ai-services.target" ];
+        Install.WantedBy = [ "ai-services.target" ];
       };
 
       n8n = {
-        description = "n8n via bunx";
-        partOf = [ "ai-services.target" ];
-
-        path = with pkgs; [
-          python315
-          nodejs_24
-        ];
-
-        environment = {
-          N8N_USER_FOLDER = "${baseDir}/n8n";
-          N8N_PYTHON_BINARY = "${pkgs.python315}/bin/python3";
-          N8N_BLOCK_SVC_REGISTRATION_EMAIL = "true";
+        Unit = {
+          Description = "n8n via bunx";
+          PartOf = [ "ai-services.target" ];
         };
-        serviceConfig = {
+        Service = {
           WorkingDirectory = "${baseDir}/n8n";
           ExecStart = "${pkgs.n8n}/bin/n8n";
           Restart = "on-failure";
+          Environment = [
+            "PATH=${
+              pkgs.lib.makeBinPath [
+                pkgs.nodejs_24
+                pkgs.python315
+              ]
+            }"
+            "N8N_USER_FOLDER=${baseDir}/n8n"
+            "N8N_PYTHON_BINARY=${pkgs.python315}/bin/python3"
+            "N8N_BLOCK_SVC_REGISTRATION_EMAIL=true"
+          ];
         };
-        wantedBy = [ "ai-services.target" ];
+
+        Install.WantedBy = [ "ai-services.target" ];
       };
     };
   };
