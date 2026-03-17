@@ -47,14 +47,6 @@
 
   };
 
-  home.programs = {
-    git = {
-      enable = true;
-      userName = "José López Vílchez";
-      userEmail = "joselopezvilchez.dev@gmail.com";
-    };
-  };
-
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }
