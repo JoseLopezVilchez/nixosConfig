@@ -19,6 +19,8 @@
   ];
 
   home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
     extraSpecialArgs = { inherit inputs; };
     users = {
       redfinger = import ./home.nix;
