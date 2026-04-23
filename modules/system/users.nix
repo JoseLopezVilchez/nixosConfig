@@ -8,6 +8,11 @@
       "wheel"
       "tss"
       "libvirtd"
+      "adbusers"
+      "plugdev"
     ];
   };
+  services.udev.packages = [
+    pkgs.android-android-udev-rules
+  ];
 }

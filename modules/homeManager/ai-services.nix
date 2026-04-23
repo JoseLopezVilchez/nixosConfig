@@ -64,7 +64,7 @@ in
 
       n8n = {
         Unit = {
-          Description = "n8n via bunx";
+          Description = "n8n via node";
           PartOf = [ "ai-services.target" ];
         };
         Service = {
