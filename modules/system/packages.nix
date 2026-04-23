@@ -15,4 +15,5 @@
     git
     brave
   ];
+  programs.adb.enable = true;
 }
