@@ -14,6 +14,6 @@
     podman
     git
     brave
+    android-tools
   ];
-  programs.adb.enable = true;
 }
