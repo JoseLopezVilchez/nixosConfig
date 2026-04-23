@@ -14,7 +14,7 @@
     ../modules/system/users.nix
     ../modules/system/packages.nix
     ../modules/system/virt.nix
-    ../modules/system/tpm.nix
+    ../modules/system/cryptography.nix
     inputs.home-manager.nixosModules.home-manager
   ];
 
