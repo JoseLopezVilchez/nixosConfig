@@ -18,11 +18,17 @@
     openssl
     openssh
   ];
+  services.dbus = {
+    enable = true;
+    packages = [ pkgs.pinentry-qt ];
+  };
   systemd.user.services.tpm-fido = {
     description = "TPM2 FIDO2 Token Emulator";
-    wantedBy = [ "default.target" ];
+    wantedBy = [ "graphical-session.target" ];
+    partOf = [ "graphical-session.target" ];
     serviceConfig = {
       ExecStart = "${pkgs.tpm-fido}/bin/tpm-fido";
+      Environment = [ "PATH=${pkgs.pinentry-qt}/bin" ];
       Restart = "on-failure";
     };
   };
