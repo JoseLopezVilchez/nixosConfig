@@ -2,8 +2,13 @@
 {
   networking.networkmanager.enable = true;
   nixpkgs.config.allowUnfree = true;
-  programs.firefox = {
-    enable = true;
+  programs = {
+    dconf = {
+      enable = true;
+    };
+    firefox = {
+      enable = true;
+    };
   };
   programs.chromium = {
     enable = true;
@@ -15,5 +20,8 @@
     git
     brave
     android-tools
+    gtk3
+    gtk4
+    gsettings-desktop-schemas
   ];
 }

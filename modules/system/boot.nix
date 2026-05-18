@@ -1,7 +1,8 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   boot = {
+    kernelPackages = pkgs.linuxPackages_latest;
     kernelModules = [ "uhid" ];
     loader = {
       systemd-boot.enable = true;
