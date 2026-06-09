@@ -6,22 +6,13 @@
     dconf = {
       enable = true;
     };
-    firefox = {
-      enable = true;
-    };
   };
-  programs.chromium = {
-    enable = true;
-  };
+  services.flatpak.enable = true;
   environment.systemPackages = with pkgs; [
     home-manager
     virt-manager
     podman
     git
-    brave
-    android-tools
-    gtk3
-    gtk4
     gsettings-desktop-schemas
   ];
 }

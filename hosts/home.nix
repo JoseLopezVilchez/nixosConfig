@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ../modules/homeManager/ai-services.nix
+    #../modules/homeManager/ai-services.nix
   ];
 
   home.username = "redfinger";
