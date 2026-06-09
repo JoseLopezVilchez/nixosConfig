@@ -18,17 +18,14 @@
   home.stateVersion = "25.11"; # Please read the comment before changing.
 
   home.packages = with pkgs; [
-    discord
     rustc
     cargo
-    tor-browser
     gcc
     gnumake
     zed-editor
     rust-analyzer
     nixd
     nil
-    prismlauncher
     libreoffice
     xca
     # # You can also create simple shell scripts directly inside your
